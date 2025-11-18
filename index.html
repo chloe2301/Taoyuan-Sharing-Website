@@ -2,115 +2,166 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Account Dashboard - Taoyuan Sharing Community</title>
-
-    <!-- Leaflet CSS -->
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      crossorigin=""
-    />
-
-    <!-- Custom CSS -->
+    <title>Taoyuan Sharing Community</title>
     <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   </head>
-  <body>
-    <!-- Navbar -->
-    <div id="navbar">
-      <a href="https://chloe2301.github.io/Taoyuan-Sharing-Website/">🏠 Home</a>
-    </div>
-    <!-- Welcome Section -->
-    <section id="welcome-section" class="welcome-section">
-      <div class="welcome-container">
-        <h1 id="main-title" class="welcome-title">Welcome back!</h1>
-        <hr class="welcome-divider" />
-        <p id="main-mission" class="welcome-subtitle">
-          Glad to see you again at Taoyuan Sharing Community
-        </p>
-      </div>
-    </section>
+    <body>
+      <!-- Navbar -->
+      <div id="navbar">
+        <a href="#">🏠 Home</a>
+        <div id="language-switcher">
+          <button data-lang="en">EN</button>
 
-    <!-- Main Dashboard Container -->
-    <main class="dashboard-container">
-      <!-- Left Column -->
-      <section class="dashboard-left">
-        <article class="box profile-box">
-          <h2 class="box-title">My Profile</h2>
-          <div class="profile-content">
-            <img
-              src="https://randomuser.me/api/portraits/women/68.jpg"
-              alt="Avatar of Chloe"
-              class="profile-avatar"
-            />
-            <div class="profile-details">
-              <p><strong>Name:</strong> Rita</p>
-              <p><strong>Email:</strong> rita@gmail.com</p>
-              <p><strong>Area:</strong> Taoyuan City Center</p>
-              <p><strong>Phone:</strong> 0900-123-456</p>
-            </div>
-          </div>
-        </article>
-
-        <article class="box map-box">
-          <h2 class="box-title">Map View - Locations</h2>
-          <div id="map"></div>
-        </article>
-      </section>
-
-      <!-- Right Column -->
-      <section class="dashboard-right">
-
-        <article class="box donations-box">
-          <h2 class="box-title">My Donations</h2>
-          <button id="donate-btn" class="btn-primary">Donate</button>
-          <ul id="donations-list" class="item-list"></ul>
-        </article>
-      
-        <article class="box received-box">
-          <h2 class="box-title">My Received Items</h2>
-          <ul id="received-list" class="item-list"></ul>
-        </article>
-      
-      </section>
-      <!-- Donate Modal đặt ngoài là đúng -->
-      <div id="donate-modal" class="modal hidden">
-        <div class="modal-content">
-          <button id="donate-close" class="modal-close">X</button>
-          <h3>New Donation</h3>
-          <form id="donate-form">
-            <label for="donate-name">Item Name:</label>
-            <input type="text" id="donate-name" name="donate-name" required />
-      
-            <label for="donate-category">Category:</label>
-            <select id="donate-category" name="donate-category" required>
-              <option value="">-- Select Category --</option>
-              <option value="Clothes">Clothes</option>
-              <option value="Food">Food</option>
-              <option value="Books">Books</option>
-              <option value="Toys">Toys</option>
-              <option value="Others">Others</option>
-            </select>
-      
-            <label for="donate-status">Condition:</label>
-            <input type="text" id="donate-status" name="donate-status" placeholder="e.g. New, Like New, Used..." required />
-      
-            <label for="donate-pickup">Pickup Location:</label>
-            <input type="text" id="donate-pickup" name="donate-pickup" required />
-      
-            <button type="submit" class="btn-primary">Submit Donation</button>
-          </form>
+          <button data-lang="zh">中文</button>
         </div>
       </div>
- 
 
-    <!-- Leaflet JS -->
-    <script
-      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-      crossorigin=""
-    ></script>
+      <!-- Welcome Section -->
+      <section id="welcome-section">
+        <div class="welcome-content">
+          <h1 id="main-title">Welcome to Taoyuan Sharing Community</h1>
+          <hr class="welcome-divider" />
+          <p id="main-mission">
+            Share, Save, Smile — Free Food, Clothes, Books & Useful Items Around
+            You!
+          </p>
+        </div>
+      </section>
 
-    <!-- Custom JS -->
-    <script src="index.js"></script>
-  </body>
+      <!-- Main Section -->
+      <div class="container">
+        <!-- Left Column -->
+        <div class="left-column">
+          <!-- Upcoming Events -->
+          <div class="orange-bar" id="upcomingBar">Upcoming Events</div>
+          <div id="events-slider" class="highlight-slider">
+            <!-- JS sẽ populate items ở đây -->
+          </div>
+        </div>
+
+        <!-- ===== Hot Items Section ===== -->
+        <div class="orange-bar" id="hotItemsBar">Hot Items List</div>
+
+        <!-- Danh sách new items -->
+        <ul id="new-items-list" class="items-list"></ul>
+
+        <!-- Modal -->
+        <div id="item-modal" style="display: none">
+          <div class="modal-content">
+            <button id="modal-close">X</button>
+            <img id="modal-img" src="" alt="Item Image" />
+            <h2 id="modal-name"></h2>
+            <p id="modal-area"></p>
+            <p id="modal-description"></p>
+            <p id="modal-donor"></p>
+            <p id="modal-pickup"></p>
+          </div>
+        </div>
+
+        <div class="right-column">
+          <!-- Wrapper cho 2 cột cuối -->
+          <div style="display: flex; gap: 20px">
+            <!-- Cột trái: Donor Board -->
+            <div class="donor-board">
+              <div class="donor-title">Donor Board</div>
+              <ul class="donor-list">
+                <li><span class="heart">❤️</span> Mr. Lin — 25 donations</li>
+                <li><span class="heart">❤️</span>Ms. Chen — 18 donations</li>
+                <li><span class="heart">❤️</span>Mr. Wang — 15 donations</li>
+                <li><span class="heart">❤️</span>Ms. Lee — 12 donations</li>
+                <li><span class="heart">❤️</span>Mr. Tanaka — 9 donations</li>
+              </ul>
+              <p class="donor-footer">We appreciate every kindness 💕</p>
+            </div>
+          
+              <div class="form-container">
+                <!-- Register Form -->
+                <form id="register-form" class="active">
+                  <input
+                    type="text"
+                    id="reg-name"
+                    placeholder="Your Name"
+                    required
+                  />
+                  <input
+                    type="password"
+                    id="reg-password"
+                    placeholder="Password"
+                    required
+                  />
+                  <select id="reg-area" required>
+                    <option value="">Select Your Area</option>
+                    <option>Taoyuan City Center</option>
+                    <option>Pingzhen</option>
+                    <option>Zhongli</option>
+                    <option>Bade</option>
+                    <option>Yangmei</option>
+                    <option>Guishan</option>
+                  </select>
+                  <input
+                    type="email"
+                    id="reg-email"
+                    placeholder="Email"
+                    required
+                  />
+                  <input
+                    type="tel"
+                    id="reg-phone"
+                    placeholder="Phone Number"
+                    required
+                  />
+                  <button type="submit" class="submit-btn">Register</button>
+                </form>
+
+                <!-- Login Form -->
+                <form id="login-form">
+                  <input
+                    type="email"
+                    id="login-email"
+                    placeholder="Email"
+                    required
+                  />
+                  <input
+                    type="password"
+                    id="login-password"
+                    placeholder="Password"
+                    required
+                  />
+                  <button type="submit" class="submit-btn">Login</button>
+                </form>
+              </div>
+              <div style="display: flex; gap: 20px">
+                <!-- Cột phai: QA board -->
+                <div class="qa-board">
+                  <h2>🌿 About Taoyuan Sharing</h2>
+                  <p>
+                    <strong>Taoyuan Sharing Old Stuffs</strong> is a local community
+                    built to encourage people to give new life to old items. Instead of
+                    throwing things away, we connect donors with those who truly need
+                    them — creating a cycle of kindness across Taoyuan.
+                  </p>
+                  <h3>🌸 Our Mission</h3>
+                  <p>
+                    To build a sustainable and caring society where sharing replaces
+                    waste, and every unused item finds a new home filled with gratitude.
+                  </p>
+                  <h3>💬 Q&A</h3>
+                  <p>
+                    <strong>Q:</strong> Who can join the community?<br />
+                    <strong>A:</strong> Anyone living in Taoyuan who wants to share or
+                    receive old items.
+                  </p>
+                
+                  <p>
+                    <strong>Q:</strong> How do I donate?<br />
+                    <strong>A:</strong> Simply register and list your available items.
+                    We’ll match you with someone in need.
+                  </p>
+                
+                   </div>
+                
+      <script src="index.js"></script>
+    </body>
 </html>
